@@ -2,9 +2,13 @@
 
 nix template engine - takes some templates, entries and applies the templates to the entries
 
-# usage
+# examples
 
-<!--check `example/` for a static website generated using nte-->
+check `example/` for a static website written in nte
+
+the example is a cut down version of [my own website](https://jacekpoz.pl) (of course also written in nte)
+
+# usage
 
 first add nte as an input in your project's flake
 
