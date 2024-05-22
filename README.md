@@ -4,7 +4,7 @@ nix template engine - takes some templates, entries and applies the templates to
 
 # usage
 
-check `example/` for a static website generated using nte
+<!--check `example/` for a static website generated using nte-->
 
 first add nte as an input in your project's flake
 
