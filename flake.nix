@@ -9,12 +9,23 @@
     systems = ["x86_64-linux" "aarch64-linux"];
     forEachSystem = nixpkgs.lib.genAttrs systems;
     pkgsForEach = nixpkgs.legacyPackages;
-  in {
+  in rec {
     engines = forEachSystem (
       system: let
         pkgs = pkgsForEach.${system};
       in {
         default = import ./engine.nix pkgs;
+      }
+    );
+
+    examples = forEachSystem (
+      system: let
+        pkgs = pkgsForEach.${system};
+      in {
+        default = import ./example/default.nix {
+          inherit (pkgs) lib stdenv;
+          nte = engines.${system}.default;
+        };
       }
     );
   };
