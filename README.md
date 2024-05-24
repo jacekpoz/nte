@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="logo/nte.svg" width="200" />
+    <img src="logo/nte-colors.svg" width="200" />
     <br />
     <h1>nte</h1>
 </div>
