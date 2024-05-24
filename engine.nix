@@ -39,7 +39,7 @@ pkgs: {extraArgs, entries, templates}: let
       foundTemplateFile = findTemplateFile newEntry;
     in
     if foundTemplateFile == null then
-      abort "template ${newEntry.template} not found"
+      abort "template `${newEntry.template}` not found"
     else
       applyTemplate newEntry foundTemplateFile;
 
