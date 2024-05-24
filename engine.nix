@@ -1,20 +1,15 @@
 pkgs: {extraArgs, entries, templates}: let
   inherit (pkgs) lib;
 
-  inherit (builtins) abort;
-  inherit (lib.lists) elemAt forEach findFirst length remove;
-  inherit (lib.strings) concatMapStrings concatStrings escapeShellArg isString splitString;
+  inherit (builtins) abort dirOf;
+  inherit (lib.lists) forEach findFirst;
+  inherit (lib.strings) concatMapStrings concatStrings escapeShellArg isString;
   inherit (lib.trivial) functionArgs;
 
   args = {inherit pkgs;}
     // (import ./stdlib.nix pkgs)
     // extraArgs;
 
-  getDirectory = file: let
-      splitPath = splitString "/" file;
-      last = elemAt splitPath ((length splitPath) - 1);
-    in
-      concatStrings (remove last splitPath);
 
   findTemplateFile = entry:
     findFirst (templateFile: let
@@ -56,7 +51,7 @@ pkgs: {extraArgs, entries, templates}: let
 in /*sh*/''
   ${concatMapStrings
     (result: /*sh*/''
-      mkdir -p $out/${getDirectory result.file}
+      mkdir -p $out/${dirOf result.file}
       echo ${escapeShellArg result.output} > $out/${result.file}
     '')
     (forEach entries processEntryFile)
