@@ -1,4 +1,8 @@
-# nte
+<div align="center">
+    <img src="logo/nte.svg" width="200" />
+    <br />
+    <h1>nte</h1>
+</div>
 
 nix template engine - takes some templates, entries and applies the templates to the entries
 
