@@ -10,7 +10,11 @@ nix template engine - takes some templates, entries and applies the templates to
 
 check `example/` for a static website written in nte
 
-build and run it using `nix shell nixpkgs#darkhttpd --command sh -c "nix build -L .#examples.x86_64-linux.default && darkhttpd ./result"`; the site will be available at http://localhost:8080
+build and run it using 
+```sh
+nix shell nixpkgs#darkhttpd --command sh -c "nix build -L .#examples.x86_64-linux.default && darkhttpd ./result"
+```
+the site will be available at http://localhost:8080
 
 the example is a cut down version of [my own website](https://jacekpoz.pl) (of course also written in nte)
 
