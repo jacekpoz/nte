@@ -6,6 +6,10 @@
 
 nix template engine - takes some templates, entries and applies the templates to the entries
 
+nte's main repository is on [my forgejo](https://git.jacekpoz.pl/jacekpoz/nte) instance
+
+mirrors are available on [github](https://github.com/jacekpoz/nte) and [codeberg](https://codeberg.org/jacekpoz/nte), I accept contributions from anywhere
+
 # sites written in nte
 https://jacekpoz.pl
 
@@ -213,6 +217,10 @@ _: {
 }
 ```
 in this example the output of this entry will end up at `$out/foo/bar.txt` instead of the default location - a base template's `format` will also be ignored
+
+# thanks
+
+[raf](https://notashelf.dev/) for helping me out with some of the nix and setting up mirrors
 
 # license
 MIT
