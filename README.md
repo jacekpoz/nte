@@ -35,9 +35,12 @@ inputs.nte.engines.${system}.default
 ```
 it accepts 3 arguments:
 
-- `extraArgs` - an attrset of additional arguments passed to all entries and templates
-- `entries` - a list of all entry files to be processed
-- `templates` - a list of all template files to be applied
+- `pkgs` - nixpkgs
+- `src` - the directory containing all entries and templates
+- an attrset of:
+    - `extraArgs` - an attrset of additional arguments passed to all entries and templates
+    - `entries` - a list of all entry files to be processed
+    - `templates` - a list of all template files to be applied
 
 and returns a string containing a shell script that applies the templates to the entries
 
@@ -92,7 +95,11 @@ nte offers a standard library that contains `nixpkgs` and utility functions foun
 
 ## templates
 
-a template can take an arbitrary number of arguments and returns `{ name, output }`
+a template can take an arbitrary number of arguments and returns `{ name, format, output }`:
+
+- `name` - used as a template ID for the entries
+- `format` - the extension of the output file (ignored if an entry defines `file`)
+- `output` - string if in a base template, entry to another template otherwise
 
 example template:
 ```nix
@@ -103,6 +110,8 @@ example template:
   ...
 }: {
   name = "greeting";
+  format = "txt";
+
   output = ''
     Hello ${name}! Welcome to ${location}.
 
@@ -120,13 +129,10 @@ a template's output can also be an entry to another template:
   date,
   time,
   ...
-} @ extraArgs : let
-  inherit (extraArgs) file;
-in {
+}: {
   name = "greeting-with-date";
   output = {
     template = "greeting";
-    inherit file;
 
     inherit name location;
 
@@ -136,16 +142,16 @@ in {
   };
 }
 ```
+a template that's inherited from a different template also inherits its format - no need to define it again
 
 ## entries
 
-an entry can take an arbitrary number of arguments and returns `{ template, file, ... }`, the `...` being the desired template's arguments (sans `extraArgs`, those are passed either way)
+an entry can take an arbitrary number of arguments and returns `{ template, ... }`, the `...` being the desired template's arguments (sans `extraArgs`, those are passed either way)
 
 example entries (using the previous example templates):
 ```nix
 _: {
   template = "greeting";
-  file = "wroclaw/welcome-jacek.txt";
 
   name = "Jacek";
   location = "Wrocław";
@@ -161,7 +167,7 @@ an entry using the stdlib:
   ...
 }: {
   template = "greeting-with-date";
-  file = "osieck/welcome-rafal.txt";
+
   name = "Rafał";
   location = "Osieck";
   date = run "date +%F";
@@ -182,6 +188,15 @@ in {
   time = run "${date} +%T";
 }
 ```
+
+nte by default will follow your source file structure, if you want to specify the output location yourself use `file`:
+```nix
+_: {
+  # ...
+  file = "foo/bar.txt";
+}
+```
+in this example the output of this entry will end up at `$out/foo/bar.txt` instead of the default location - a base template's `format` will also be ignored
 
 # license
 MIT
