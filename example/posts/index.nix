@@ -1,13 +1,13 @@
 {
+  getEntry,
   pkgs,
   ...
-} @ entryArgs: let
+}: let
   inherit (pkgs) lib;
   inherit (lib.lists) map;
   inherit (lib.strings) concatStrings;
 in {
   template = "base";
-  file = "posts/index.html";
 
   head = /*html*/''
     <title>nte posts</title>
@@ -25,7 +25,7 @@ in {
     '';
   in /*html*/''
     <div id="posts">
-      ${concatStrings (map (postFile: postItem ((import postFile) entryArgs))
+      ${concatStrings (map (postFile: postItem (getEntry postFile))
         [
           ./test.nix
         ]

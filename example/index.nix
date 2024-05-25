@@ -1,6 +1,5 @@
 _: {
   template = "base";
-  file = "index.html";
 
   head = /*html*/''
     <title>nte example</title>
