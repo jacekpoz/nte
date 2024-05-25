@@ -14,7 +14,7 @@
       system: let
         pkgs = pkgsForEach.${system};
       in {
-        default = import ./engine.nix pkgs;
+        default = import ./engine.nix pkgs ./example;
       }
     );
 

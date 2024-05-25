@@ -4,14 +4,11 @@
   created,
   content,
   ...
-} @ extraArgs : let
-  inherit (extraArgs) file;
-in {
+}: {
   name = "post";
 
   output = {
     template = "base";
-    inherit file;
 
     head = /*html*/''
       <title>${title}</title>

@@ -3,7 +3,6 @@
   ...
 }: {
   template = "post";
-  file = "posts/test.html";
 
   title = "Test post (using nte)";
   author = "jacekpoz";

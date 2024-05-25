@@ -4,6 +4,7 @@
   ...
 }: {
   name = "base";
+  format = "html";
 
   output = /*html*/''
     <html>
