@@ -44,7 +44,14 @@ it accepts 3 arguments:
 
 and returns a string containing a shell script that applies the templates to the entries
 
-here's an example usage inside of another derivation:
+the flake gives the engine `pkgs`, so when passing the engine function to a derivation, only provide it with the source directory:
+```nix
+import ./project/default.nix {
+  # ...
+  nte = nte.engines.${system}.default ./project;
+};
+```
+then you can use it as in the example derivation below:
 ```nix
 {
   nte,
