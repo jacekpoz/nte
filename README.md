@@ -91,7 +91,7 @@ in
 
 nte will handle creating directories if your source file structure isn't flat
 
-nte offers a standard library that contains `nixpkgs` and utility functions found in [stdlib.nix](./stdlib.nix)
+nte offers a standard library that contains `nixpkgs`, a `getEntry` function that handles an entry's `file` and utility functions found in [stdlib.nix](./stdlib.nix)
 
 ## templates
 
