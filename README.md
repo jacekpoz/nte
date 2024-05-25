@@ -29,7 +29,7 @@ nix shell nixpkgs#darkhttpd --command sh -c "nix build -L .#examples.x86_64-linu
 ```
 the site will be available at http://localhost:8080
 
-the example is a cut down version of [my own website](https://jacekpoz.pl) (of course also written in nte)
+the example is a cut down version of my own website
 
 # usage
 
