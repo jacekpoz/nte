@@ -1,10 +1,19 @@
 <div align="center">
-    <img src="logo/nte-colors.svg" width="200" />
+    <img src="branding/nte-colors.svg" width="200" />
     <br />
     <h1>nte</h1>
 </div>
 
 nix template engine - takes some templates, entries and applies the templates to the entries
+
+# sites written in nte
+https://jacekpoz.pl
+
+if your site (or anything else) is written in nte, let me know and I'll add you to this list
+
+you can also use this button on your site and link to one of the repos
+
+[<img src="branding/powered-by-nte.png">](https://git.jacekpoz.pl/jacekpoz/nte)
 
 # examples
 
