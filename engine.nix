@@ -8,7 +8,7 @@ pkgs: src: {extraArgs, entries, templates}: let
   inherit (lib.strings) concatMapStrings concatStrings escapeShellArg hasSuffix isString removeSuffix;
   inherit (lib.trivial) functionArgs;
 
-  args = {inherit pkgs;}
+  args = {inherit pkgs getEntry;}
     // (import ./stdlib.nix pkgs)
     // extraArgs;
 
@@ -84,16 +84,12 @@ pkgs: src: {extraArgs, entries, templates}: let
     else
       entry;
 
-in {
-  inherit getEntry;
-
-  buildScript = /*sh*/''
-    ${concatMapStrings
-      (result: /*sh*/''
-        mkdir -p $out/${dirOf result.file}
-        echo ${escapeShellArg result.output} > $out/${result.file}
-      '')
-      (forEach entries processEntryFile)
-    }
-  '';
-}
+in /*sh*/''
+  ${concatMapStrings
+    (result: /*sh*/''
+      mkdir -p $out/${dirOf result.file}
+      echo ${escapeShellArg result.output} > $out/${result.file}
+    '')
+    (forEach entries processEntryFile)
+  }
+''

@@ -8,10 +8,7 @@
   inherit (lib.lists) map;
   inherit (lib.strings) replaceStrings toLower;
 
-  _nte = nte {inherit extraArgs entries templates;};
-
   extraArgs = {
-    inherit (_nte) getEntry;
     h = n: content: let
       id = replaceStrings [" " ";"] ["-" "-"] (toLower content);
     in /*html*/''
@@ -43,7 +40,7 @@ in
     buildPhase = /*sh*/''
       runHook preBuild
 
-      ${_nte.buildScript}
+      ${nte {inherit extraArgs entries templates;}}
 
       runHook postBuild
     '';
