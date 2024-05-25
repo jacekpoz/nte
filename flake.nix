@@ -14,7 +14,7 @@
       system: let
         pkgs = pkgsForEach.${system};
       in {
-        default = import ./engine.nix pkgs ./example;
+        default = import ./engine.nix pkgs;
       }
     );
 
@@ -24,7 +24,7 @@
       in {
         default = import ./example/default.nix {
           inherit (pkgs) lib stdenv;
-          nte = engines.${system}.default;
+          nte = engines.${system}.default ./example;
         };
       }
     );
