@@ -18,6 +18,14 @@
       }
     );
 
+    libs = forEachSystem (
+      system: let
+        pkgs = pkgsForEach.${system};
+      in {
+        default = import ./stdlib.nix pkgs;
+      }
+    );
+
     examples = forEachSystem (
       system: let
         pkgs = pkgsForEach.${system};
