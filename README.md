@@ -46,9 +46,8 @@ then the engine function will be available under
 ```nix
 inputs.nte.engines.${system}.default
 ```
-it accepts 3 arguments:
+it accepts 2 arguments:
 
-- `pkgs` - nixpkgs
 - `src` - the directory containing all entries and templates
 - an attrset of:
     - `extraArgs` - an attrset of additional arguments passed to all entries and templates
@@ -57,14 +56,14 @@ it accepts 3 arguments:
 
 and returns a string containing a shell script that applies the templates to the entries
 
-the flake gives the engine `pkgs`, so when passing the engine function to a derivation, only provide it with the source directory:
+when passing the engine function to the main derivation, only provide it with the source directory:
 ```nix
 import ./project/default.nix {
   # ...
   nte = nte.engines.${system}.default ./project;
 };
 ```
-then you can use it as in the example derivation below:
+then you can pass the attrset and use it in that derivation, as in the example below:
 ```nix
 {
   nte,
