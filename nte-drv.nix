@@ -9,7 +9,7 @@ pkgs: engine: {
 }: let
   inherit (pkgs) lib;
   inherit (lib.lists) forEach init;
-  inherit (lib.strings) concatStrings match normalizePath optionalString splitString;
+  inherit (lib.strings) concatStrings concatStringsSep match normalizePath optionalString splitString;
 in pkgs.stdenv.mkDerivation {
   inherit name version src;
 
@@ -29,7 +29,7 @@ in pkgs.stdenv.mkDerivation {
     ${concatStrings (forEach extraFiles
         (extraFile: let
           isInSubdir = (match ".+/.*" extraFile.destination) != null;
-          outDir = concatStrings (init (splitString "/" extraFile.destination));
+          outDir = normalizePath "$out/${concatStringsSep "/" (init (splitString "/" extraFile.destination))}";
           outPath = normalizePath "$out/${extraFile.destination}";
         in /*sh*/''
           ${optionalString isInSubdir /*sh*/"mkdir -p ${outDir}"}
