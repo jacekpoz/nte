@@ -28,7 +28,7 @@ in pkgs.stdenv.mkDerivation {
 
     ${concatStrings (forEach extraFiles
         (extraFile: let
-          isInSubdir = (match ".+/.+" extraFile.destination) != null;
+          isInSubdir = (match ".+/.*" extraFile.destination) != null;
           outDir = concatStrings (init (splitString "/" extraFile.destination));
           outPath = normalizePath "$out/${extraFile.destination}";
         in /*sh*/''
