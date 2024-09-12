@@ -9,12 +9,14 @@
     systems = ["x86_64-linux" "aarch64-linux"];
     forEachSystem = nixpkgs.lib.genAttrs systems;
     pkgsForEach = nixpkgs.legacyPackages;
-  in rec {
+    enginesForEach = import ./engine.nix;
+  in {
     functions = forEachSystem (
       system: let
         pkgs = pkgsForEach.${system};
-      in rec {
-        engine = import ./engine.nix pkgs;
+        engine = enginesForEach pkgs;
+      in {
+        inherit engine;
         mkNteDerivation = import ./nte-drv.nix pkgs engine;
       }
     );
@@ -30,10 +32,11 @@
     examples = forEachSystem (
       system: let
         pkgs = pkgsForEach.${system};
+        engine = enginesForEach pkgs;
       in {
         default = import ./example/default.nix {
           inherit (pkgs) lib stdenv;
-          nte = functions.${system}.engine ./example;
+          nte = engine ./example;
         };
       }
     );
