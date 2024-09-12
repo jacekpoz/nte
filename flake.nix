@@ -13,8 +13,9 @@
     functions = forEachSystem (
       system: let
         pkgs = pkgsForEach.${system};
-      in {
+      in rec {
         engine = import ./engine.nix pkgs;
+        mkNteDerivation = import ./nte-drv.nix pkgs engine;
       }
     );
 
