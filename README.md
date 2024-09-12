@@ -54,7 +54,7 @@ it accepts 2 arguments:
     - `entries` - a list of all entry files to be processed
     - `templates` - a list of all template files to be applied
 
-and returns a string containing a shell script that applies the templates to the entries
+and returns a string containing a shell script that outputs the processed entries into files
 
 when passing the engine function to the main derivation, only provide it with the source directory:
 ```nix
