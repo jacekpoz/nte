@@ -43,12 +43,6 @@ pkgs: src: {extraArgs, entries, templates}: let
     in
       applyTemplate newEntry foundTemplateFile;
 
-  processEntryFile = entryFile: let
-    entry = getEntry entryFile;
-    foundTemplateFile = findTemplateFile entry;
-  in
-    applyTemplate entry foundTemplateFile;
-
   replaceSuffix = from: to: string:
     if !(hasSuffix from string) then
       abort "invalid suffix `${from}` for string `${string}`"
@@ -83,6 +77,12 @@ pkgs: src: {extraArgs, entries, templates}: let
       }
     else
       entry;
+
+  processEntryFile = entryFile: let
+    entry = getEntry entryFile;
+    foundTemplateFile = findTemplateFile entry;
+  in
+    applyTemplate entry foundTemplateFile;
 
 in /*sh*/''
   ${concatMapStrings
