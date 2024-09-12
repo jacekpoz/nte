@@ -10,11 +10,11 @@
     forEachSystem = nixpkgs.lib.genAttrs systems;
     pkgsForEach = nixpkgs.legacyPackages;
   in rec {
-    engines = forEachSystem (
+    functions = forEachSystem (
       system: let
         pkgs = pkgsForEach.${system};
       in {
-        default = import ./engine.nix pkgs;
+        engine = import ./engine.nix pkgs;
       }
     );
 
@@ -32,7 +32,7 @@
       in {
         default = import ./example/default.nix {
           inherit (pkgs) lib stdenv;
-          nte = engines.${system}.default ./example;
+          nte = functions.${system}.engine ./example;
         };
       }
     );

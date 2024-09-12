@@ -44,7 +44,7 @@ nte = {
 
 then the engine function will be available under
 ```nix
-inputs.nte.engines.${system}.default
+inputs.nte.functions.${system}.engine
 ```
 it accepts 2 arguments:
 
@@ -60,7 +60,7 @@ when passing the engine function to the main derivation, only provide it with th
 ```nix
 import ./project/default.nix {
   # ...
-  nte = nte.engines.${system}.default ./project;
+  nte = inputs.nte.functions.${system}.engine ./project;
 };
 ```
 then you can pass the attrset and use it in that derivation, as in the example below:
