@@ -9,7 +9,7 @@
   created = "2024-05-22";
   content = /*html*/''
     <p>
-      This is a test post on an example nte site. Feel free to read the <a href="#lorem-ipsum">lorem ipsum</a> below. Its header was generated using an additional helper function added to <code>extraArgs</code>
+      This is a test post on an example nte site. Feel free to read the <a href="#lorem-ipsum">lorem ipsum</a> below. Its heading was generated using an additional helper function added to <code>extraArgs</code>
     </p>
     ${h2 "Lorem ipsum"}
     <p>
