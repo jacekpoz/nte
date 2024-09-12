@@ -42,34 +42,26 @@ nte = {
 };
 ```
 
-then the engine function will be available under
+then use the `mkNteDerivation` wrapper over `stdenv.mkDerivation` available under
 ```nix
-inputs.nte.functions.${system}.engine
+inputs.nte.functions.${system}.mkNteDerivation
 ```
-it accepts 2 arguments:
+it accepts an attrset of:
+- `name`, `version`, `src` - passthrough to `stdenv.mkDerivation`
+- `extraArgs` - an attrset of additional arguments passed to all entries and templates
+- `entries` - a list of all entry files to be processed
+- `templates` - a list of all template files to be applied
+- `extraFiles` - a list of attrsets of `source` and `destination`:
+    - `source` - a path, if relative `$PWD` is `$src` in the `installPhase`
+    - `destination` - a path, never absolute, appended to `$out` in the `installPhase`
 
-- `src` - the directory containing all entries and templates
-- an attrset of:
-    - `extraArgs` - an attrset of additional arguments passed to all entries and templates
-    - `entries` - a list of all entry files to be processed
-    - `templates` - a list of all template files to be applied
-
-and returns a string containing a shell script that outputs the processed entries into files
-
-when passing the engine function to the main derivation, only provide it with the source directory:
+example usage of the wrapper function:
 ```nix
-import ./project/default.nix {
-  # ...
-  nte = inputs.nte.functions.${system}.engine ./project;
-};
-```
-then you can pass the attrset and use it in that derivation, as in the example below:
-```nix
-{
-  nte,
-  stdenv,
-  ...
-}: let
+mkNteDerivation {
+  name = "nte-example";
+  version = "0.1";
+  src = ./.;
+
   extraArgs = {
     foo = 2137;
     bar = "dupa";
@@ -92,23 +84,34 @@ then you can pass the attrset and use it in that derivation, as in the example b
     ./template1.nix
     ./template2.nix
   ];
-in
-  stdenv.mkDerivation {
-    name = "nte-example";
-    version = "0.1";
-    src = ./.;
-  
-    buildPhase = ''
-      runHook preBuild
 
-      ${nte {inherit extraArgs entries templates;}}
-  
-      runHook postBuild
-    '';
-  }
+  extraFiles = [
+    { source = ./image.png; destination = "/assets/"; }
+    { source = ./image2.png; destination = "/assets/dupa.png"; }
+    { source = "./data/*"; destination = "/assets/data/"; }
+    { source = fetchurl { ... }; destination = "/"; }
+  ];
+}
 ```
 
 nte will handle creating directories if your source file structure isn't flat
+
+if the `mkNteDerivation` wrapper isn't enough for you, you can do things the old way - by putting the output of `inputs.nte.functions.${system}.engine` in a derivation's `buildPhase`:
+```nix
+mkDerivation {
+  # ...
+
+  buildPhase = ''
+    runHook preBuild
+
+    ${engine {inherit extraArgs entries templates;}}
+
+    runHook postBuild
+  '';
+}
+```
+
+in that case if you wish to replicate the functionality of `extraFiles` you can use the derivation's `installPhase`, manually `mkdir` the needed directories and `cp` your files into `$out`
 
 nte offers a standard library that contains `nixpkgs`, a `getEntry` function that handles an entry's `file` and utility functions found in [stdlib.nix](./stdlib.nix)
 
