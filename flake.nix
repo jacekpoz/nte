@@ -3,11 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default";
   };
 
-  outputs = {nixpkgs, ...}: let
-    systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-    forEachSystem = nixpkgs.lib.genAttrs systems;
+  outputs = { nixpkgs, systems, ... }: let
+    forEachSystem = nixpkgs.lib.genAttrs (import systems);
     pkgsForEach = nixpkgs.legacyPackages;
     enginesForEach = import ./engine.nix;
   in {
