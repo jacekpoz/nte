@@ -14,3 +14,6 @@
 # 0.3.1
 - improved engine code readability a bit
 - exposed `applyTemplate` so that users can do templating inside a single file
+
+# 0.3.2
+- allow the use of raw paths alongside attrsets in `extraFiles`
