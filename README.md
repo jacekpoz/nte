@@ -51,9 +51,11 @@ it accepts an attrset of:
 - `extraArgs` - an attrset of additional arguments passed to all entries and templates
 - `entries` - a list of all entry files to be processed
 - `templates` - a list of all template files to be applied
-- `extraFiles` - a list of attrsets of `source` and `destination`:
-    - `source` - a path, if relative `$PWD` is `$src` in the `installPhase`
-    - `destination` - a path, never absolute, appended to `$out` in the `installPhase`
+- `extraFiles` - a list of either:
+    - a path to the source file - will be copied to `$out` in the `installPhase`
+    - attrset of `source` and `destination`:
+        - `source` - a path, if relative `$PWD` is `$src` in the `installPhase`
+        - `destination` - a path, never absolute, appended to `$out` in the `installPhase`
 
 example usage of the wrapper function:
 ```nix
@@ -86,6 +88,7 @@ mkNteDerivation {
   ];
 
   extraFiles = [
+    ./data.txt # equivalent to { source = ./data.txt; destination = "/"; }
     { source = ./image.png; destination = "/assets/"; }
     { source = ./image2.png; destination = "/assets/dupa.png"; }
     { source = "./data/*"; destination = "/assets/data/"; }
