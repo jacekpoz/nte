@@ -177,6 +177,10 @@ a template that's inherited from a different template also inherits its format -
 
 an entry can take an arbitrary number of arguments and returns `{ template, ... }`, the `...` being the desired template's arguments (sans `extraArgs`, those are passed either way)
 
+there's a built-in `passthrough` template, which (as the name might suggest) takes in a `format` and `output` and passes them through to the template with no changes
+
+this is useful if you're using nte to create a single file - you won't have to create a boilerplate template
+
 example entries (using the previous example templates):
 ```nix
 _: {
