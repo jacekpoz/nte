@@ -32,15 +32,18 @@ pkgs: src: {extraArgs, entries, templates}: let
   applyTemplate = templateFn: entry: let
     template = templateFn (args // entry);
   in
-    if isBaseTemplate template then {
-      inherit (entry) file;
-      inherit (template) output;
-    }
+    if isBaseTemplate template then
+      template.output
     else let
-      newEntry = template.output // {inherit (entry) file;};
+      newEntry = template.output;
       foundTemplateFn = findTemplateFn newEntry;
     in
       applyTemplate foundTemplateFn newEntry;
+
+  applyTemplateFile = templateFn: entry: {
+    inherit (entry) file;
+    output = applyTemplate templateFn entry;
+  };
 
   replaceSuffix = from: to: string:
     if !(hasSuffix from string) then
@@ -80,7 +83,7 @@ pkgs: src: {extraArgs, entries, templates}: let
     foundTemplateFn = findTemplateFn entry;
     entry = getEntry entryFile;
   in
-    applyTemplate foundTemplateFn entry;
+    applyTemplateFile foundTemplateFn entry;
 
 in /*sh*/''
   ${concatMapStrings
