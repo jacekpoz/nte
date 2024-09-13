@@ -8,6 +8,7 @@ pkgs: engine: {
   extraFiles ? []
 }: let
   inherit (pkgs) lib;
+  inherit (lib.attrsets) isAttrs;
   inherit (lib.lists) forEach init;
   inherit (lib.strings) concatStrings concatStringsSep match normalizePath optionalString splitString;
 in pkgs.stdenv.mkDerivation {
@@ -28,12 +29,16 @@ in pkgs.stdenv.mkDerivation {
 
     ${concatStrings (forEach extraFiles
         (extraFile: let
-          isInSubdir = (match ".+/.*" extraFile.destination) != null;
-          outDir = normalizePath "$out/${concatStringsSep "/" (init (splitString "/" extraFile.destination))}";
-          outPath = normalizePath "$out/${extraFile.destination}";
+          fileAttrs = if isAttrs extraFile
+            then extraFile
+            else { source = extraFile; destination = "/"; };
+
+          isInSubdir = (match ".+/.*" fileAttrs.destination) != null;
+          outDir = normalizePath "$out/${concatStringsSep "/" (init (splitString "/" fileAttrs.destination))}";
+          outPath = normalizePath "$out/${fileAttrs.destination}";
         in /*sh*/''
           ${optionalString isInSubdir /*sh*/"mkdir -p ${outDir}"}
-          cp -r ${extraFile.source} ${outPath}
+          cp -r ${fileAttrs.source} ${outPath}
         ''))
     }
 
