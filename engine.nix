@@ -9,10 +9,12 @@ pkgs: src: {extraArgs, entries, templates}: let
   inherit (lib.trivial) functionArgs;
 
   templates' = templates ++ [
-    ({ format, output, ... }: {
-      name = "passthrough";
-      inherit format output;
-    })
+    (pkgs.writeText "passthrough.nix" /*nix*/''
+      { format, output, ... }: {
+        name = "passthrough";
+        inherit format output;
+      }
+    '')
   ];
 
   args = {inherit pkgs getEntry applyTemplate;}
