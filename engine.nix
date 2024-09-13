@@ -8,6 +8,13 @@ pkgs: src: {extraArgs, entries, templates}: let
   inherit (lib.strings) concatMapStrings concatStrings escapeShellArg hasSuffix isString removeSuffix;
   inherit (lib.trivial) functionArgs;
 
+  templates' = templates ++ [
+    ({ format, output, ... }: {
+      name = "passthrough";
+      inherit format output;
+    })
+  ];
+
   args = {inherit pkgs getEntry applyTemplate;}
     // (import ./stdlib.nix pkgs)
     // extraArgs;
@@ -22,7 +29,7 @@ pkgs: src: {extraArgs, entries, templates}: let
       in
         template'.name == entry.template)
       null
-      templates;
+      templates';
   in
     if template == null then
       abort "unknown template `${entry.template}`"
