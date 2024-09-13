@@ -10,3 +10,7 @@
 - moved the following outputs:
     - `engines.${system}.default` -> `functions.${system}.engine`
 - introduced `mkNteDerivation` helper function (`functions.${system}.mkNteDerivation`)
+
+# 0.3.1
+- improved engine code readability a bit
+- exposed `applyTemplate` so that users can do templating inside a single file
