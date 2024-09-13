@@ -29,7 +29,7 @@ pkgs: src: {extraArgs, entries, templates}: let
     else
       _template;
 
-  applyTemplate = entry: templateFile: let
+  applyTemplate = templateFile: entry: let
     templateFn = import templateFile;
     template = templateFn (args // entry);
   in
@@ -41,7 +41,7 @@ pkgs: src: {extraArgs, entries, templates}: let
       newEntry = template.output // {inherit (entry) file;};
       foundTemplateFile = findTemplateFile newEntry;
     in
-      applyTemplate newEntry foundTemplateFile;
+      applyTemplate foundTemplateFile newEntry;
 
   replaceSuffix = from: to: string:
     if !(hasSuffix from string) then
@@ -79,10 +79,10 @@ pkgs: src: {extraArgs, entries, templates}: let
       entry;
 
   processEntryFile = entryFile: let
-    entry = getEntry entryFile;
     foundTemplateFile = findTemplateFile entry;
+    entry = getEntry entryFile;
   in
-    applyTemplate entry foundTemplateFile;
+    applyTemplate foundTemplateFile entry;
 
 in /*sh*/''
   ${concatMapStrings
