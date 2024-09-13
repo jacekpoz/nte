@@ -16,4 +16,9 @@
 - exposed `applyTemplate` so that users can do templating inside a single file
 
 # 0.3.2
-- allow the use of raw paths alongside attrsets in `extraFiles`
+- allowed the use of raw paths alongside attrsets in `extraFiles`
+
+# 0.3.3
+- made `applyTemplate` work on a raw entry and return a string
+  and added an internal `applyTemplateFile` that works as the former did before
+- added built-in `passthrough` template
