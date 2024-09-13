@@ -52,10 +52,12 @@ it accepts an attrset of:
 - `entries` - a list of all entry files to be processed
 - `templates` - a list of all template files to be applied
 - `extraFiles` - a list of either:
-    - a path to the source file - will be copied to `$out` in the `installPhase`
+    - a string containing the path to the source file - will be copied to `$out` in the `installPhase`
     - attrset of `source` and `destination`:
-        - `source` - a path, if relative `$PWD` is `$src` in the `installPhase`
-        - `destination` - a path, never absolute, appended to `$out` in the `installPhase`
+        - `source` - a string containing a path, if relative `$PWD` is `$src` in the `installPhase`
+        - `destination` - a string containing a path, never absolute, appended to `$out` in the `installPhase`
+
+make sure not to use nix paths if you want the names of the files to match up
 
 example usage of the wrapper function:
 ```nix
@@ -88,9 +90,9 @@ mkNteDerivation {
   ];
 
   extraFiles = [
-    ./data.txt # equivalent to { source = ./data.txt; destination = "/"; }
-    { source = ./image.png; destination = "/assets/"; }
-    { source = ./image2.png; destination = "/assets/dupa.png"; }
+    "./data.txt" # equivalent to { source = ./data.txt; destination = "/"; }
+    { source = "./image.png"; destination = "/assets/"; }
+    { source = "./image2.png"; destination = "/assets/dupa.png"; }
     { source = "./data/*"; destination = "/assets/data/"; }
     { source = fetchurl { ... }; destination = "/"; }
   ];
