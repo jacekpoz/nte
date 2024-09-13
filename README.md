@@ -57,7 +57,7 @@ it accepts an attrset of:
         - `source` - a string containing a path, if relative `$PWD` is `$src` in the `installPhase`
         - `destination` - a string containing a path, never absolute, appended to `$out` in the `installPhase`
 
-make sure not to use nix paths if you want the names of the files to match up
+make sure not to use nix paths in `extraFiles` if you want the names of the files to match up
 
 example usage of the wrapper function:
 ```nix
