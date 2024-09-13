@@ -113,7 +113,11 @@ mkDerivation {
 
 in that case if you wish to replicate the functionality of `extraFiles` you can use the derivation's `installPhase`, manually `mkdir` the needed directories and `cp` your files into `$out`
 
-nte offers a standard library that contains `nixpkgs`, a `getEntry` function that gives you access to the entry's attributes and utility functions found in [stdlib.nix](./stdlib.nix)
+nte offers a standard library that contains:
+- `nixpkgs`
+- `getEntry` - a function that gives you access to the entry's attributes
+- `applyTemplate` - a function that allows you to manually apply a template to an entry
+- utility functions found in [stdlib.nix](./stdlib.nix)
 
 ## templates
 
