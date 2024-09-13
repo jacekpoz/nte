@@ -8,7 +8,7 @@ pkgs: src: {extraArgs, entries, templates}: let
   inherit (lib.strings) concatMapStrings concatStrings escapeShellArg hasSuffix isString removeSuffix;
   inherit (lib.trivial) functionArgs;
 
-  args = {inherit pkgs getEntry;}
+  args = {inherit pkgs getEntry applyTemplate;}
     // (import ./stdlib.nix pkgs)
     // extraArgs;
 
