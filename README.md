@@ -12,6 +12,7 @@ mirrors are available on [github](https://github.com/jacekpoz/nte) and [codeberg
 
 # sites written in nte
 https://jacekpoz.pl
+
 https://krizej.codeberg.page
 
 if your site (or anything else) is written in nte, let me know and I'll add you to this list
