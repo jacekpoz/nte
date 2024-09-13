@@ -15,22 +15,21 @@ pkgs: src: {extraArgs, entries, templates}: let
   isBaseTemplate = template:
     isString template.output;
 
-  findTemplateFile = entry: let
-    _template = findFirst (templateFile: let
-      templateFn = import templateFile;
-      template = templateFn (functionArgs templateFn);
-    in
-      template.name == entry.template)
-    null
-    templates;
+  findTemplateFn = entry: let
+    template = findFirst (templateFile: let
+        templateFn = import templateFile;
+        template' = templateFn (functionArgs templateFn);
+      in
+        template'.name == entry.template)
+      null
+      templates;
   in
-    if _template == null then
+    if template == null then
       abort "unknown template `${entry.template}`"
     else
-      _template;
+      (import template);
 
-  applyTemplate = templateFile: entry: let
-    templateFn = import templateFile;
+  applyTemplate = templateFn: entry: let
     template = templateFn (args // entry);
   in
     if isBaseTemplate template then {
@@ -39,9 +38,9 @@ pkgs: src: {extraArgs, entries, templates}: let
     }
     else let
       newEntry = template.output // {inherit (entry) file;};
-      foundTemplateFile = findTemplateFile newEntry;
+      foundTemplateFn = findTemplateFn newEntry;
     in
-      applyTemplate foundTemplateFile newEntry;
+      applyTemplate foundTemplateFn newEntry;
 
   replaceSuffix = from: to: string:
     if !(hasSuffix from string) then
@@ -49,8 +48,7 @@ pkgs: src: {extraArgs, entries, templates}: let
     else
       concatStrings [ (removeSuffix from string) to ];
 
-  getTemplateFormat = entry: templateFile: let
-    templateFn = import templateFile;
+  getTemplateFormat = entry: templateFn: let
     # getEntry needs to go down to the base template for the format
     # but any template through the way can ask for a file
     # so we just give it a placeholder - an empty string here
@@ -61,15 +59,15 @@ pkgs: src: {extraArgs, entries, templates}: let
       template.format
     else let
       newEntry = template.output;
-      foundTemplateFile = findTemplateFile newEntry;
+      foundTemplateFn = findTemplateFn newEntry;
     in
-      getTemplateFormat newEntry foundTemplateFile;
+      getTemplateFormat newEntry foundTemplateFn;
 
   getEntry = entryFile: let
     sourceFile = toString (removePrefix src entryFile);
     entry = (import entryFile) args;
-    foundTemplateFile = findTemplateFile entry;
-    entryFormat = getTemplateFormat entry foundTemplateFile;
+    foundTemplateFn = findTemplateFn entry;
+    entryFormat = getTemplateFormat entry foundTemplateFn;
   in
     if !(hasAttr "file" entry) then
       entry // {
@@ -79,10 +77,10 @@ pkgs: src: {extraArgs, entries, templates}: let
       entry;
 
   processEntryFile = entryFile: let
-    foundTemplateFile = findTemplateFile entry;
+    foundTemplateFn = findTemplateFn entry;
     entry = getEntry entryFile;
   in
-    applyTemplate foundTemplateFile entry;
+    applyTemplate foundTemplateFn entry;
 
 in /*sh*/''
   ${concatMapStrings
