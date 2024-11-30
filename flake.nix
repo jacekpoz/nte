@@ -16,9 +16,9 @@
       system: let
         pkgs = pkgsForEach.${system};
         engine = enginesForEach pkgs;
-        mkNteDerivation = mkNteDerivationsForEach pkgs engine;
       in {
-        inherit engine mkNteDerivation;
+        inherit engine;
+        mkNteDerivation = mkNteDerivationsForEach pkgs engine;
       }
     );
 
@@ -34,11 +34,10 @@
       system: let
         pkgs = pkgsForEach.${system};
         engine = enginesForEach pkgs;
-        mkNteDerivation = mkNteDerivationsForEach pkgs engine;
       in {
         default = import ./example/default.nix {
           inherit (pkgs) lib;
-          inherit mkNteDerivation;
+          mkNteDerivation = mkNteDerivationsForEach pkgs engine;
         };
       }
     );
