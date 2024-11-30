@@ -38,6 +38,9 @@ first add nte as an input in your project's flake
 ```nix
 nte = {
   url = "git+https://git.jacekpoz.pl/poz/nte";
+  # or one of the mirrors
+  #url = "git+https://codeberg.org/jacekpoz/nte";
+  #url = "github:jacekpoz/nte";
   inputs.nixpkgs.follows = "nixpkgs";
 };
 ```
