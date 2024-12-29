@@ -6,18 +6,18 @@
 
 nix template engine - takes some templates, entries and applies the templates to the entries
 
-nte's main repository is on [my forgejo](https://git.jacekpoz.pl/poz/nte) instance
+nte's main repository is on [my forgejo](https://git.poz.pet/poz/nte) instance
 
 mirrors are available on [github](https://github.com/jacekpoz/nte) and [codeberg](https://codeberg.org/jacekpoz/nte), I accept contributions from anywhere
 
 # sites written in nte
-https://jacekpoz.pl
+https://poz.pet
 
 if your site (or anything else) is written in nte, let me know and I'll add you to this list
 
 you can also use this button on your site and link to one of the repos
 
-[<img src="branding/powered-by-nte.png">](https://git.jacekpoz.pl/poz/nte)
+[<img src="branding/powered-by-nte.png">](https://git.poz.pet/poz/nte)
 
 # examples
 
@@ -37,7 +37,7 @@ first add nte as an input in your project's flake
 
 ```nix
 nte = {
-  url = "git+https://git.jacekpoz.pl/poz/nte";
+  url = "git+https://git.poz.pet/poz/nte";
   # or one of the mirrors
   #url = "git+https://codeberg.org/jacekpoz/nte";
   #url = "github:jacekpoz/nte";
