@@ -44,7 +44,7 @@ pkgs: src: {extraArgs, entries, templates}: let
     if isBaseTemplate template then
       template.output
     else let
-      newEntry = template.output;
+      newEntry = template.output // {inherit (entry) file;};
       foundTemplateFn = findTemplateFn newEntry;
     in
       applyTemplate foundTemplateFn newEntry;
