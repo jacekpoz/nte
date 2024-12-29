@@ -22,3 +22,6 @@
 - made `applyTemplate` work on a raw entry and return a string
   and added an internal `applyTemplateFile` that works as the former did before
 - added built-in `passthrough` template
+
+# 0.3.4
+- fixed an issue where `file` wasn't available to the base template if another one inherited from it
