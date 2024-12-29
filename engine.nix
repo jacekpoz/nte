@@ -49,7 +49,7 @@ pkgs: src: {extraArgs, entries, templates}: let
     in
       applyTemplate foundTemplateFn newEntry;
 
-  applyTemplateFile = templateFn: entry: {
+  applyTemplateFn = templateFn: entry: {
     inherit (entry) file;
     output = applyTemplate templateFn entry;
   };
@@ -92,7 +92,7 @@ pkgs: src: {extraArgs, entries, templates}: let
     foundTemplateFn = findTemplateFn entry;
     entry = getEntry entryFile;
   in
-    applyTemplateFile foundTemplateFn entry;
+    applyTemplateFn foundTemplateFn entry;
 
 in /*sh*/''
   ${concatMapStrings
