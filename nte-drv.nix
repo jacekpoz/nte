@@ -5,7 +5,11 @@ pkgs: engine: {
   extraArgs ? {},
   entries ? [],
   templates ? [],
-  extraFiles ? []
+  extraFiles ? [],
+  preBuild ? "",
+  postBuild ? "",
+  preInstall ? "",
+  postInstall ? "",
 }: let
   inherit (pkgs) lib;
   inherit (lib.attrsets) isAttrs;
@@ -14,17 +18,17 @@ pkgs: engine: {
 in pkgs.stdenv.mkDerivation {
   inherit name version src;
 
+  inherit preBuild;
+
   buildPhase = /*sh*/''
-    runHook preBuild
-
     ${engine src {inherit extraArgs entries templates;}}
-
-    runHook postBuild
   '';
 
-  installPhase = optionalString (extraFiles != []) /*sh*/''
-    runHook preInstall
+  inherit postBuild;
 
+  inherit preInstall;
+
+  installPhase = optionalString (extraFiles != []) /*sh*/''
     mkdir -p $out
 
     ${concatStrings (forEach extraFiles
@@ -41,7 +45,7 @@ in pkgs.stdenv.mkDerivation {
           cp -r ${fileAttrs.source} ${outPath}
         ''))
     }
-
-    runHook postInstall
   '';
+
+  inherit postInstall;
 }

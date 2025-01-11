@@ -59,6 +59,10 @@ it accepts an attrset of:
     - attrset of `source` and `destination`:
         - `source` - a string containing a path, if relative `$PWD` is `$src` in the `installPhase`
         - `destination` - a string containing a path, never absolute, appended to `$out` in the `installPhase`
+- `preBuild` - passthrough to `stdenv.mkDerivation`
+- `postBuild` - passthrough to `stdenv.mkDerivation`
+- `preInstall` - passthrough to `stdenv.mkDerivation`
+- `postInstall` - passthrough to `stdenv.mkDerivation`
 
 make sure not to use nix paths in `extraFiles` if you want the names of the files to match up
 
