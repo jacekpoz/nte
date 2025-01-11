@@ -25,3 +25,6 @@
 
 # 0.3.4
 - fixed an issue where `file` wasn't available to the base template if another one inherited from it
+
+# 0.3.5
+- added `{pre,post}{Build,Install}` as passthrough parameters to `mkNteDerivation`
