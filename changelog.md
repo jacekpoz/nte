@@ -28,3 +28,6 @@
 
 # 0.3.5
 - added `{pre,post}{Build,Install}` as passthrough parameters to `mkNteDerivation`
+
+# 0.3.6
+- fixed the above mentioned hooks not having any effect
