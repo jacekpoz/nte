@@ -21,7 +21,11 @@ in pkgs.stdenv.mkDerivation {
   inherit preBuild;
 
   buildPhase = /*sh*/''
+    runHook preBuild
+
     ${engine src {inherit extraArgs entries templates;}}
+
+    runHook postBuild
   '';
 
   inherit postBuild;
@@ -29,6 +33,8 @@ in pkgs.stdenv.mkDerivation {
   inherit preInstall;
 
   installPhase = optionalString (extraFiles != []) /*sh*/''
+    runHook preInstall
+
     mkdir -p $out
 
     ${concatStrings (forEach extraFiles
@@ -45,6 +51,8 @@ in pkgs.stdenv.mkDerivation {
           cp -r ${fileAttrs.source} ${outPath}
         ''))
     }
+
+    runHook postInstall
   '';
 
   inherit postInstall;
