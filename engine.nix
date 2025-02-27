@@ -1,12 +1,14 @@
 pkgs: src: {extraArgs, entries, templates}: let
   inherit (pkgs) lib;
 
-  inherit (builtins) abort dirOf toString;
+  inherit (builtins) abort baseNameOf dirOf toString;
   inherit (lib.attrsets) hasAttr;
   inherit (lib.lists) forEach findFirst;
   inherit (lib.path) removePrefix;
-  inherit (lib.strings) concatMapStrings concatStrings escapeShellArg hasSuffix isString removeSuffix;
+  inherit (lib.strings) concatMapStrings concatStrings hasSuffix isString removeSuffix;
   inherit (lib.trivial) functionArgs;
+
+  inherit (pkgs) writeText;
 
   templates' = templates ++ [
     (pkgs.writeText "passthrough.nix" /*nix*/''
@@ -98,7 +100,7 @@ in /*sh*/''
   ${concatMapStrings
     (result: /*sh*/''
       mkdir -p $out/${dirOf result.file}
-      echo ${escapeShellArg result.output} > $out/${result.file}
+      cat ${writeText (baseNameOf result.file) result.output} > $out/${result.file}
     '')
     (forEach entries processEntryFile)
   }
