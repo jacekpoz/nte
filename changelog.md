@@ -31,3 +31,6 @@
 
 # 0.3.6
 - fixed the above mentioned hooks not having any effect
+
+# 0.3.7
+- added passthrough `meta` parameter to `mkNteDerivation`
