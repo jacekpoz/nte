@@ -10,6 +10,7 @@ pkgs: engine: {
   postBuild ? "",
   preInstall ? "",
   postInstall ? "",
+  meta ? {},
 }: let
   inherit (pkgs) lib;
   inherit (lib.attrsets) isAttrs;
@@ -56,4 +57,6 @@ in pkgs.stdenv.mkDerivation {
   '';
 
   inherit postInstall;
+
+  inherit meta;
 }
