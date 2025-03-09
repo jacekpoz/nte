@@ -5,7 +5,7 @@
   template = "post";
 
   title = "Test post (using nte)";
-  author = "jacekpoz";
+  author = "poz";
   created = "2024-05-22";
   content = /*html*/''
     <p>
