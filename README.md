@@ -8,7 +8,7 @@ nix template engine - takes some templates, entries and applies the templates to
 
 nte's main repository is on [my forgejo](https://git.poz.pet/poz/nte) instance
 
-mirrors are available on [github](https://github.com/jacekpoz/nte) and [codeberg](https://codeberg.org/poz/nte), I accept contributions from anywhere
+mirrors are available on [github](https://github.com/imnotpoz/nte) and [codeberg](https://codeberg.org/poz/nte), I accept contributions from anywhere
 
 # sites written in nte
 https://poz.pet
@@ -42,7 +42,7 @@ nte = {
   url = "git+https://git.poz.pet/poz/nte";
   # or one of the mirrors
   #url = "git+https://codeberg.org/poz/nte";
-  #url = "github:jacekpoz/nte";
+  #url = "github:imnotpoz/nte";
   inputs.nixpkgs.follows = "nixpkgs";
 };
 ```
